@@ -1,3 +1,6 @@
+import success
+from errors import errors
+
 database = {
     "apple": "100",
     "orange": "200",
@@ -7,10 +10,9 @@ database = {
 
 def calculator(food):
     if food in database:
-        return database[food]
+        return success.Success({"food_calories": database[food]})
     else:
-        error_message = "Not found in database"
-        return error_message
+        return errors.UnexpectedError("not found")
 
 
 
