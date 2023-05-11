@@ -8,6 +8,10 @@ database = {
 def calculator(food):
     if food in database:
         return database[food]
+    else:
+        error_message = "Not found in database"
+        return error_message
+
 
 
 def unit_test_happy_path():
