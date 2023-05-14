@@ -15,3 +15,7 @@ class UnexpectedError(BaseError):
 
     def __init__(self, message="Unexpected error"):
         self.message = message
+
+class InputError(BaseError):
+    def __init__(self, inputs={}):
+        self.inputs = inputs

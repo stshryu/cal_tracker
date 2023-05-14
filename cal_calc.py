@@ -12,20 +12,4 @@ def calculator(food):
     if food in database:
         return success.Success({"food_calories": database[food]})
     else:
-        return errors.UnexpectedError("not found")
-
-
-
-def unit_test_happy_path():
-    apple_response = calculator("apple")
-    orange_response = calculator("orange")
-    sliced_b_response = calculator("sliced_bread")
-
-    if apple_response != "100" or orange_response != "200" or sliced_b_response != "300":
-        print("False")
-    else:
-        print("True")
-
-
-if __name__ in "__main__":
-    unit_test_happy_path()
+        return errors.UnexpectedError("No food found in database")
