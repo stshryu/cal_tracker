@@ -11,12 +11,20 @@ class CalorieIntake:
         validation_errors = {}
         if type(self.name) is not str:
             validation_errors['name'] = "Name must be a string"
-        if type(self.calorie) is not int:
+
+        if not self.calorie.isdigit():
             validation_errors['calorie'] = "Calorie must be an int"
-        if type(self.quantity) is not int:
+        else:
+            self.calorie = int(self.calorie)
+
+        if not self.quantity.isdigit():
             validation_errors['quantity'] = "Quantity must be an int"
+        else:
+            self.quantity = int(self.quantity)
+
         if len(validation_errors.keys()) == 0:
             return success.Success(True)
+
         else:
             return errors.InputError(validation_errors)
 
