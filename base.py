@@ -4,18 +4,25 @@ import success
 from errors import errors
 
 # Services and local imports
-from cal_calc import calculator
+from models import daily_calorie_aggregate
+from models import calorie_intake
 
 # Initializing flask application
 app = Flask(__name__)
 
 
-@app.route('/get_calorie_count', methods=['POST'])
-def get_calories():
+@app.route('/add_food', methods=['POST'])
+def add_to_daily_calorie_aggregate():
     response_dict = request.form.to_dict()
     food_name = response_dict['food_name']
 
-    result = calculator(food_name)
+    # Create calorie intake object
+    cal_intake_object = calorie_intake.CalorieIntake()
+    #result =
+
+    # Create a daily calorie aggregate
+    daily_calorie_object = daily_calorie_aggregate.DailyCalorieAggregate()
+    result = daily_calorie_object.add_calorie_intake()
     match result:
         case success.Success():
             response = result.unpack()
