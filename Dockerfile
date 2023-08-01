@@ -16,6 +16,8 @@ COPY . .
 # Set env variables
 ENV FLASK_APP=base.py
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
 
 # Ports
 EXPOSE 5000

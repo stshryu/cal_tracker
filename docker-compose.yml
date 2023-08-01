@@ -6,8 +6,12 @@ services:
       - 5000:5000
     depends_on:
       - db
+    volumes:
+      - .:/app
   db:
     image: postgres:13
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=Testing123!

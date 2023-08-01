@@ -5,6 +5,7 @@ from errors import errors
 class DailyCalorieAggregate:
     def __init__(self):
         self.calorie_intakes = []
+        self.total_calories = None
 
     def add_calorie_intake(self, cal_intake_obj):
         result = cal_intake_obj.validate()
@@ -30,28 +31,34 @@ class DailyCalorieAggregate:
         else:
             self.calorie_intakes[index_to_edit] = updated_cal_obj
 
+    def calculate_calories(self):
+        if len(self.calorie_intakes) == 0:
+            self.total_calories = 0
+        else:
+            for intake in self.calorie_intakes:
+                intake_total_cal = intake.calorie * intake.quantity
+                self.total_calories += intake_total_cal
+
     def validate(self):
         if type(self.calorie_intakes) is not list:
             return False
         return True
 
-    def validate_calorie_list(self):
-        """
-        Expensive operation to validate every calorie intake in the aggregate
-        :return:
-        Boolean
-        """
-        for item in self.calorie_intakes:
-            if type(item) is not calorie_intake.CalorieIntake:
-                return False
-        return True
+    def map(self, schema):
+        self.calculate_calories()
+        try:
+            mapped_object = schema(
+                calorie_intakes=self.calorie_intakes,
+                total_calories=self.total_calories
+            )
+            return success.Success(mapped_object)
+        except Exception:
+            return errors.UnexpectedError("Error mapping class to schema")
 
-    def save(self, adapter):
-        result = adapter.save(self)
+    def save(self, adapter, mapped_object):
+        result = adapter.save(mapped_object)
         match result:
             case success.Success():
                 return result
             case _:
                 return result
-
-
